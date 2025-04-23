@@ -12,18 +12,31 @@
 
 #include "../minitalk.h"
 #include "../libft/libft.h"
+#include <signal.h>
+
+void	sig_handler(int signum)
+{
+	ft_printf("sig %d\n", signum);
+}
 
 int	main(void)
 {
-	int pid;
+	pid_t	pid;
+	struct sigaction	sig_act;
 
 	pid = getpid();
-	ft_printf("%process ID", pid);
-
+	sig_act.sa_handler = sig_handler;
+	sig_act.sa_flags = 0;
+	sigemptyset(&sig_act.sa_mask); 
+	//sigaddset(&sig_act.sa_mask, SIGUSR1);
+	//sigaddset(&sig_act.sa_mask, SIGUSR2);
+	ft_printf("server PID %d\n", pid);
+	sigaction(SIGUSR1, &sig_act, NULL);
+	sigaction(SIGUSR2, &sig_act, NULL);
 	while(1)
 	{
-
+		pause();
 	}
 
-	return EXIT_SUCCESS;
+	return (0);
 }
