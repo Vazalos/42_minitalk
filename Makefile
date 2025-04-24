@@ -33,7 +33,7 @@ LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 # RULES
-all: $(OBJ) $(NAME_1) $(NAME_2)
+all: $(LIBFT) $(OBJ) $(NAME_1) $(NAME_2)
 
 $(NAME_1): $(LIBFT) $(OBJ_PATH) $(SERVER_OBJ)
 	$(CC) $(CC_FLAGS) $(SERVER_OBJ) $(LIBFT) -o $(NAME_1)
