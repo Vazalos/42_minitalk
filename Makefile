@@ -33,13 +33,16 @@ LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 # RULES
-all: $(LIBFT) $(OBJ) $(NAME_1) $(NAME_2)
+all: $(LIBFT_PATH) $(LIBFT) $(OBJ_PATH) $(OBJ) $(NAME_1) $(NAME_2)
 
 $(NAME_1): $(LIBFT) $(OBJ_PATH) $(SERVER_OBJ)
 	$(CC) $(CC_FLAGS) $(SERVER_OBJ) $(LIBFT) -o $(NAME_1)
 
 $(NAME_2): $(LIBFT) $(OBJ_PATH) $(CLIENT_OBJ)
 	$(CC) $(CC_FLAGS) $(CLIENT_OBJ) $(LIBFT) -o $(NAME_2)
+
+$(LIBFT_PATH):
+	mkdir $(LIBFT_PATH)
 
 $(LIBFT):
 	@ git clone git@github.com:Vazalos/my_libft.git $(LIBFT_PATH)
@@ -51,17 +54,22 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	$(CC) $(CC_FLAGS) -c $< -o $@
-	#$(CC) $(CC_FLAGS) -I/usr/include -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
 	$(RM) $(OBJ_PATH)
-	$(MAKE) -C $(LIBFT_PATH) clean
+	if [ -d "$(LIBFT_PATH)" ]; \
+		then $(MAKE) -C $(LIBFT_PATH) clean; \
+	fi
 
 fclean: clean
-	$(RM) $(NAME)
-	$(MAKE) -C $(LIBFT_PATH) fclean
-	$(RM) $(LIBFT_PATH)
+	$(RM) $(NAME_1) $(NAME_2)
+	if [ -d "$(LIBFT_PATH)" ]; \
+		then $(MAKE) -C $(LIBFT_PATH) fclean; \
+	fi
+	if [ -d "$(LIBFT_PATH)" ]; \
+		then $(RM) $(LIBFT_PATH); \
+	fi
 
 re: fclean all
 
