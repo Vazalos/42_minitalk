@@ -36,12 +36,13 @@ void	ft_assign_message(t_data *data, int signum)
 	data->bits++;
 	if (data->bits == 8)
 	{
-		data->message[char_pos] = data->bytes;
+		if (char_pos < data->msg_len)
+			data->message[char_pos] = data->bytes;
 		char_pos++;
 		data->bits = 0;
 		if (data->bytes == '\0')
 		{
-			ft_printf("%s", data->message);
+			ft_printf("%s\n", data->message);
 			ft_reset_data(data);
 			char_pos = 0;
 		}

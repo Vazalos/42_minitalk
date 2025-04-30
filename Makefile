@@ -16,6 +16,7 @@ NAME_2 = client
 
 # COMPILE & FLAGS
 CC = cc
+#CC = cc -fsanitize=address -fno-omit-frame-pointer
 RM = rm -rf
 CC_FLAGS = -Wall -Wextra -Werror -g
 
@@ -33,16 +34,14 @@ LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 # RULES
-all: $(LIBFT_PATH) $(LIBFT) $(OBJ_PATH) $(OBJ) $(NAME_1) $(NAME_2)
+all: $(LIBFT) $(NAME_1) $(NAME_2)
+	@touch $(NAME_1) $(NAME_2)
 
-$(NAME_1): $(LIBFT) $(OBJ_PATH) $(SERVER_OBJ)
+$(NAME_1): $(OBJ_PATH) $(SERVER_OBJ)
 	$(CC) $(CC_FLAGS) $(SERVER_OBJ) $(LIBFT) -o $(NAME_1)
 
-$(NAME_2): $(LIBFT) $(OBJ_PATH) $(CLIENT_OBJ)
+$(NAME_2): $(OBJ_PATH) $(CLIENT_OBJ)
 	$(CC) $(CC_FLAGS) $(CLIENT_OBJ) $(LIBFT) -o $(NAME_2)
-
-$(LIBFT_PATH):
-	mkdir $(LIBFT_PATH)
 
 $(LIBFT):
 	@ git clone git@github.com:Vazalos/my_libft.git $(LIBFT_PATH)
